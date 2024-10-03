@@ -15,6 +15,13 @@ public class Slingshot : MonoBehaviour
     public GameObject projectile;
     public bool aimingMode;
 
+    public Transform leftBand;
+    public Transform rightBand;
+    public LineRenderer leftLine;
+    public LineRenderer rightLine;
+
+    public AudioClip launchSound; 
+    private AudioSource audioSource;
 
 
     void Awake(){
@@ -22,6 +29,23 @@ public class Slingshot : MonoBehaviour
         launchPoint = launchPointTrans.gameObject; //gets gameobject associated w/ transform and assigns it to GameObject launchPoint
         launchPoint.SetActive(false); //SetActive shows the halo and that is the range user interacts with (deactivates the gameobject)
         launchPos = launchPointTrans.position;
+
+
+        //ADDED CONTENT HERE TO GET RUBBER BAND USING LINE RENDERER
+        //To get the LineRenderer located in 
+        leftLine = leftBand.GetComponent<LineRenderer>();
+        rightLine = rightBand.GetComponent<LineRenderer>();
+
+        //Declare how many points I am using to connect the sling shot
+        leftLine.positionCount = 2;
+        rightLine.positionCount = 2;
+
+        //If not on click sling shot does not appear
+        leftLine.enabled = false;
+        rightLine.enabled = false;
+
+        //To add slingshot rubber band sound
+        audioSource = GetComponent<AudioSource>();
     }
 
     //Enter and Exit Function of Sphere surronding the slingshot
@@ -41,6 +65,10 @@ public class Slingshot : MonoBehaviour
         projectile = Instantiate(projectilePrefab) as GameObject;//Created object
         projectile.transform.position = launchPos; //Start at launchPoint
         projectile.GetComponent<Rigidbody>().isKinematic = true; //Set to isKinematic
+
+        //If the mouse clicked down the slingshot rubber band appears
+        leftLine.enabled = true;
+        rightLine.enabled = true;
     }
 
     void Update(){
@@ -64,6 +92,14 @@ public class Slingshot : MonoBehaviour
         Vector3 projPos = launchPos + mouseDelta;
         projectile.transform.position = projPos;
 
+        //Set postion of sling shot line to connect to the leftCylinder & projectile
+        leftLine.SetPosition(0, leftBand.position);
+        leftLine.SetPosition(1, projectile.transform.position);
+
+        //Set position of slingshot line to connect to rightCylinder & projectile
+        rightLine.SetPosition(0, rightBand.position);
+        rightLine.SetPosition(1, projectile.transform.position);
+
         //Mouse Released
         if(Input.GetMouseButtonUp(0)){
             aimingMode = false;
@@ -71,11 +107,18 @@ public class Slingshot : MonoBehaviour
             projRB.isKinematic = false;//once again respond to gravity
             projRB.collisionDetectionMode = CollisionDetectionMode.Continuous;
             projRB.velocity = -mouseDelta * velocityMult; //velocity proportional to mouse distance
+
+            //Add Audio Component
+            audioSource.PlayOneShot(launchSound);
+
             FollowCam.SWITCH_VIEW(FollowCam.eView.slingshot);
             FollowCam.POI = projectile; //Calls from FollowCam.cs to set the MainCamera to follow the projectile
             Instantiate<GameObject>(projLinePrefab, projectile.transform);//Accepts a parent transform as the second parameter (ProjectLinePrefab will be created as a child of projectile)
             projectile = null; //does not delete just clears to create another
             MissionDemolition.SHOT_FIRED();
+
+            leftLine.enabled = false;
+            rightLine.enabled = false;
         }
 
     }
