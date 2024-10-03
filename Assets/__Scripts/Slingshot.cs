@@ -7,6 +7,7 @@ public class Slingshot : MonoBehaviour
     [Header("Inscribed")]//Set in Unity Inspector Pane (dragged prefab projectile)
     public GameObject projectilePrefab;
     public float velocityMult = 10f;
+    public GameObject projLinePrefab;//Set prefab for ProjectileLine
 
     [Header("Dynamic")]//Set Dynamically when game running
     public GameObject launchPoint;
@@ -70,8 +71,11 @@ public class Slingshot : MonoBehaviour
             projRB.isKinematic = false;//once again respond to gravity
             projRB.collisionDetectionMode = CollisionDetectionMode.Continuous;
             projRB.velocity = -mouseDelta * velocityMult; //velocity proportional to mouse distance
+            FollowCam.SWITCH_VIEW(FollowCam.eView.slingshot);
             FollowCam.POI = projectile; //Calls from FollowCam.cs to set the MainCamera to follow the projectile
+            Instantiate<GameObject>(projLinePrefab, projectile.transform);//Accepts a parent transform as the second parameter (ProjectLinePrefab will be created as a child of projectile)
             projectile = null; //does not delete just clears to create another
+            MissionDemolition.SHOT_FIRED();
         }
 
     }
