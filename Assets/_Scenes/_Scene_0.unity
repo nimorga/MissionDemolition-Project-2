@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18386866, g: 0.22901702, b: 0.303111, a: 1}
+  m_IndirectSpecularColor: {r: 0.18386917, g: 0.2290177, b: 0.30311212, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -677,6 +677,7 @@ MonoBehaviour:
   uitLevel: {fileID: 2013051994}
   uitShots: {fileID: 969725839}
   castlePos: {x: 50, y: -9.5, z: 0}
+  flagPolePos: {x: 25, y: -9.5, z: 0}
   castles:
   - {fileID: 4466281517059420801, guid: 7d2a67d01aa3d74449342908aac2d3f3, type: 3}
   - {fileID: 4466281517059420801, guid: 9d5f0738bd9a600489b8629299480349, type: 3}
@@ -686,6 +687,7 @@ MonoBehaviour:
   levelMax: 0
   shotsTaken: 0
   castle: {fileID: 0}
+  flagPole: {fileID: 2988485181918585953, guid: b1607ad8d9208e9479b58102163be97f, type: 3}
   mode: 0
   showing: Show Slingshot
 --- !u!1 &969725837
@@ -1174,10 +1176,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 16
+    m_FontSize: 25
     m_FontStyle: 1
     m_BestFit: 0
-    m_MinSize: 1
+    m_MinSize: 0
     m_MaxSize: 40
     m_Alignment: 4
     m_AlignByGeometry: 0

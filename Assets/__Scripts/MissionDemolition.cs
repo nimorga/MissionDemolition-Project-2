@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;//For text
+using UnityEngine.SceneManagement;
 
 public enum GameMode{
     idle,
@@ -17,13 +18,15 @@ public class MissionDemolition : MonoBehaviour
     public Text uitLevel;
     public Text uitShots;
     public Vector3 castlePos; //Place to put castles
+    public Vector3 flagPolePos;
     public GameObject[] castles; //Array of Castles
-
+    
     [Header("Dynamic")]
     public int level; //Current level
     public int levelMax; //Num of levels
     public int shotsTaken;
     public GameObject castle; //Current Castle
+    public GameObject flagPole;
     public GameMode mode = GameMode.idle;
     public string showing = "Show Slingshot"; //FollowCam mode
 
@@ -36,6 +39,8 @@ public class MissionDemolition : MonoBehaviour
         level = 0;
         shotsTaken = 0;
         levelMax = castles.Length;
+        flagPole = Instantiate<GameObject>(flagPole);
+        flagPole.transform.position = flagPolePos;
         StartLevel();
     }
 
@@ -49,6 +54,7 @@ public class MissionDemolition : MonoBehaviour
         Projectile.DESTROY_PROJECTILES();
         castle = Instantiate<GameObject>(castles[level]);
         castle.transform.position = castlePos;
+        
 
         //Reset the goal
         Goal.goalMet = false;
@@ -83,6 +89,7 @@ public class MissionDemolition : MonoBehaviour
         if(level == levelMax){
             level = 0;
             shotsTaken = 0;
+            SceneManager.LoadScene( "_Game_Over" );
         }
         StartLevel();
     }
