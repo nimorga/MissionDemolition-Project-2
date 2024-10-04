@@ -1,4 +1,5 @@
 # MissionDemolition-Project-2
+Description: Physics game inspired by Angry Birds following the Introduction to Game Design, Prototyping, and Development Chapter 30. Game contains a slingshot that launches a projectile that knocks down castles in order to hit the green goal in the middle to win thhe level and move onto the next.
 
 ## Enhancements
 
